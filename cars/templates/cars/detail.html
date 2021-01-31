@@ -1,0 +1,34 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block title %}Te lo reparo{% endblock %}
+{% block header %}Coches{% endblock %}
+{% block content %}
+<div class="card card-solid">
+    <div class="card-header">
+        <h2>Todos los detalles del maravilloso {{ coche.Modelo }}</h2>
+      </div>
+    <div class="card-body pb-0">
+        <div>Matricula: {{ coche.Matricula }}</div>
+        <div>Marca: {{ coche.Marca }}</div>
+        <div>Modelo: {{ coche.Modelo }}</div>
+        <div>Color: {{ coche.Color }}</div>
+        <div>FechaMatriculacion: {{ coche.FechaMatriculacion }}</div>
+        <div>Imagen: <img
+                    src="{% if coche.Imagen %}
+                        {{ coche.Imagen.url }}
+                        {% else %}
+                        {% static 'x.png' %}
+                        {% endif %}"
+                    alt="Imagen del coche"
+                    width="100%"
+                    height="100%"
+                    class="img-fluid mb-2"
+                  /></div>
+      <br>
+  </div>
+  <div class="card-footer">
+    <a href="{% url 'cars:listacoches' %}" class="btn btn-default">Volver</a>
+    <a href="{% url 'cars:editarcoche' coche.id %}" class="btn btn-info">Editar</a>
+  </div>
+</div>
+{% endblock %}

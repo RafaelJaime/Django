@@ -1,0 +1,27 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block title %}Te lo reparo{% endblock %}
+{% block header%}Página Principal{% endblock %}
+{% block content %}
+{% for noticia in noticias %}
+<div class="col-12">
+  <div class="card bg-light">
+    <div class="row">
+      <div class="col-8">
+        <div class="card-header text-muted border-bottom-0">
+          {{ noticia.Titulo }}
+        </div>
+        <div class="card-body">
+          {{ noticia.Texto }}
+        </div>
+      </div>
+      <div class="col-4">
+        <div class="card-body">
+          <img src="{% if noticia.Foto %}{{ noticia.Foto.url }}{% else %}{% static 'logo.jpg' %}{% endif %}" alt="No se puede cargar la imagen" width="100%">
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+{% endfor %}
+{% endblock %}

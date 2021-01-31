@@ -1,0 +1,32 @@
+{% extends 'base.html' %}
+{% block title %}Te lo reparo{% endblock %}
+{% block header%}Registro{% endblock %}
+{% block content %}
+<div class="row">
+    <div class="col-md-12">
+      <div class="card card-primary">
+        <div class="card-header">
+          <h3 class="card-title">Registrarse</h3>
+        </div>
+        <form method="post">
+          {% csrf_token %}
+          <div class="card-body">
+            {% for field in form %}
+              <div class="form-group">
+                {{ field.label_tag }}
+                {{ field }}
+                {% if field.errors %}
+                  {{field.errors}}
+                {% endif %}
+              </div>
+            {% endfor %}
+          </div>
+          <div class="card-footer">
+            <button type="submit" class="btn btn-primary">Registrarse</button>
+          </div>
+        </form>
+      </div>
+    </div>
+    <div class="col-md-6"></div>
+  </div>
+{% endblock %}

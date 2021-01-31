@@ -1,0 +1,41 @@
+{% extends 'base.html' %} 
+{% load static %} 
+{% block title %}Te lo reparo{%endblock %} 
+{% block header %}Todos las noticias{% endblock %} 
+{% block content %}
+<div class="card card-solid">
+  <div class="card-header pb-0">
+    <h4>
+      Las noticias de teloreparo, ten cuidado porque las leerán los clientes.
+    </h4>
+  </div>
+  <div class="card-body pb-0">
+    <div class="row d-flex align-items-stretch">
+      {% for noticia in noticias %}
+      <a href="{% url 'notices:vernoticia' noticia.id %}">
+        <div class="col-12 col-sm-6 col-md-6">
+          <div class="card bg-light">
+            <div class="card-header text-muted border-bottom-0">
+              {{ noticia.Titulo }}
+            </div>
+            <div class="card-header">{{ noticia.Texto }}</div>
+            <div class="card-footer">
+              <div class="">
+                <a href="{% url 'notices:editarnoticia' noticia.id %}" class="btn btn-info">Editar</a>
+                <a href="{% url 'notices:borrarnoticia' noticia.id %}" class="btn btn-danger float-right">Eliminar</a>
+              </div>
+            </div>
+          </div>
+        </div>
+      </a>
+      {% endfor %} 
+      {% if not noticias %}
+      <p>No tienes coches actualmente, pulsa en el botón para incluirlo</p>
+      {% endif %}
+    </div>
+  </div>
+  <div class="card-footer">
+    <a href="{% url 'notices:nuevanoticia' %}" class="btn btn-success">Añadir noticia</a>
+  </div>
+</div>
+{% endblock %}

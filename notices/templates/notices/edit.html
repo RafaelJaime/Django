@@ -1,0 +1,20 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block title %}Te lo reparo{% endblock %}
+{% block header %}Noticias{% endblock %}
+{% block content %}
+<div class="card card-solid">
+    <div class="card-header">
+        <h4>Modifica la noticia {{ noticia.Titulo }}</h4>
+    </div>
+    <div class="card-body pb-0">
+    <form method="post">
+        {% csrf_token %}
+        {{ form.as_p}}
+    </div><div class="card-footer">
+    <a href="{% url 'notices:listanoticias' %}" class="btn btn-default">Volver</a>
+    <input type="Submit" value="Actualizar" class="btn btn-primary">
+  </div>
+  </form>
+</div>
+{% endblock %}

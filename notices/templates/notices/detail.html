@@ -1,0 +1,23 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block title %}Te lo reparo{% endblock %}
+{% block header %}Todos tus coches{% endblock %}
+{% block content %}
+<div class="card card-solid">
+    <div class="card-header">
+        <h2>Todos los detalles de {{ noticia.Titulo }}.</h2>
+      </div>
+    <div class="card-body pb-0">
+        <div>Titulo: {{ noticia.Titulo }}</div>
+        <div>Texto: {{ noticia.Texto }}</div>
+        <div>Fecha de modificación: {{ noticia.Fmodificacion }}</div>
+        <div>Fecha de creacion: {{ noticia.Fcreacion }}</div>
+        <div>Foto: <img src="{% if noticia.Foto %}{{ noticia.Foto.url }}{% else %}{% static 'logo.jpg' %}{% endif %}" alt="No se puede cargar la imagen" width="100%"></div>
+      <br>
+  </div>
+  <div class="card-footer">
+    <a href="{% url 'notices:listanoticias' %}" class="btn btn-default">Volver</a>
+    <a href="{% url 'notices:editarnoticia' noticia.id%}" class="btn btn-info">Editar</a>
+  </div>
+</div>
+{% endblock %}

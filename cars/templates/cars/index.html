@@ -1,0 +1,67 @@
+{% extends 'base.html' %} 
+{% load static %} 
+{% block title %}Te lo reparo{%endblock %} 
+{% block header %}Todos tus coches{% endblock %} 
+{% block content %}
+<div class="card card-solid">
+  <div class="card-header pb-0">
+    <h4>Sus coches, {{ user.first_name }}.</h4>
+  </div>
+  <div class="card-body pb-0">
+    <div class="row d-flex align-items-stretch">
+      {% for coche in coches %}
+      <div class="col-12 col-sm-6 col-md-3">
+        <div class="card bg-light">
+          <a href="{% url 'cars:vercoche' coche.id %}">
+            <div class="card-header text-muted border-bottom-0">
+              {{ coche.Matricula }}
+            </div>
+            <div class="card-body pt-0">
+              <div class="row">
+                <div class="col-7">
+                  <p class="text-muted text-sm">
+                    <b>Marca: </b>{{ coche.Marca }}</b>
+                  </p>
+                  <p class="text-muted text-sm">
+                    <b>Modelo: </b>{{ coche.Modelo }}</b>
+                  </p>
+                  <p class="text-muted text-sm">
+                    <b>Fecha de matriculación: </b><br />
+                    {{ coche.FechaMatriculacion }}
+                  </p>
+                </div>
+                <div class="col-5 text-center">
+                  <img
+                    src="{% if coche.Imagen %}
+                        {{ coche.Imagen.url }}
+                        {% else %}
+                        {% static 'x.png' %}
+                        {% endif %}"
+                    alt="Imagen del coche"
+                    width="100"
+                    height="100"
+                    class="img-fluid mb-2"
+                  />
+                </div>
+              </div>
+            </div>
+          </a>
+          <div class="card-footer">
+            <div class="">
+              <a href="" class="btn btn-warning">Reparar</a>
+              <a href="{% url 'cars:editarcoche' coche.id %}" class="btn btn-info">Editar</a>
+              <a href="{% url 'cars:borrarcoche' coche.id %}" class="btn btn-danger float-right">Eliminar</a>
+            </div>
+          </div>
+        </div>
+      </div>
+      {% endfor %} {% if not coches %}
+      <p>No tienes coches actualmente, pulsa en el botón para incluirlo</p>
+      {% endif %}
+    </div>
+  </div>
+  <div class="card-footer">
+    <a href="{% url 'cars:nuevocoche' %}" class="btn btn-success">Añadir coche</a>
+  </div>
+</div>
+{% endblock %}

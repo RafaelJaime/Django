@@ -1,0 +1,23 @@
+{% extends 'base.html' %}
+{% block title %}Te lo reparo{% endblock %}
+{% block header %}Todos tus coches{% endblock %}
+{% block content %}
+<div class="card card-solid">
+    <div class="card-header">
+        <h2>Nueva noticia</h2>
+      </div>
+    <div class="card-body pb-0">
+  <form action="" method="post">
+      {% csrf_token %}
+      <table>
+          {{ form.as_table}}
+      </table>
+      <br>
+  </div>
+  <div class="card-footer">
+    <a href="{% url 'notices:listanoticias' %}" class="btn btn-default">Volver</a>
+    <button type="submit" class="btn btn-primary">Insertar noticia</button>
+  </div>
+</form>
+</div>
+{% endblock %}
