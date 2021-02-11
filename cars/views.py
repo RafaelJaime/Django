@@ -14,6 +14,7 @@ class IndexListView(ListView):
     model = coche
     template_name='cars/index.html'
     context_object_name = 'coches'
+    paginate_by=8
     def get_queryset(self, *args, **kwargs):
         return coche.objects.filter(Dueno=self.request.user.id)
 @method_decorator([login_required, client_required], name='dispatch')

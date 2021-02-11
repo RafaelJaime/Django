@@ -40,6 +40,7 @@ INSTALLED_APPS = [
     'rest_framework',
     'rest_framework.authtoken',
     'corsheaders',
+    'reparations',
     'account',
     'cars',
     'notices',
@@ -148,3 +149,9 @@ REST_FRAMEWORK = {
         'rest_framework.authentication.TokenAuthentication',
     ]
 }
+# EMAIL
+EMAIL_HOST = 'smtp.gmail.com'
+EMAIL_PORT = 587
+EMAIL_HOST_USER = 'chimpancesjaimecamero@gmail.com'
+EMAIL_HOST_PASSWORD = 'jaimecamerochimpances'
+EMAIL_USE_TLS = True

@@ -1,0 +1,22 @@
+{% extends 'base.html' %}
+{% block title %}Te lo reparo{% endblock %}
+{% block header %}Reparaciones{% endblock %}
+{% block content %}
+<div class="card card-solid">
+    <form action="{% url 'reparations:reparate' coche.id %}" method="POST"></form>
+    <div class="card-header">
+        <h2>Nueva reparación</h2>
+      </div>
+    <div class="card-body pb-0">
+        Matrícula del coche: {{ coche.Matricula }}<br>
+        Nombre del dueño: {{ coche.Dueno }}<br>
+        {{ form }}
+      <br>
+  </div>
+  <div class="card-footer">
+    <a href="{% url 'cars:listacoches' %}" class="btn btn-default">Volver</a>
+    <input type="submit" class="btn btn-primary" value="Solicitar reparación"></input>
+  </div>
+</form>
+</div>
+{% endblock %}

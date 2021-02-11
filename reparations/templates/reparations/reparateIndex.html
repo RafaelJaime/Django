@@ -1,0 +1,61 @@
+{% extends 'base.html' %} 
+{% load static %} 
+{% block title %}Te loreparo{%endblock %} 
+{% block header %}Todas sus reparaciones{% endblock %} 
+{% block content %}
+<div class="card card-solid">
+  <div class="card-header ui-sortable-handle">
+    <h4 class="card-title">Reparaciones por hacer.</h4>
+    <div class="card-tools">
+      <div class="pagination pagination-sm">
+        {% if reparaciones %} {% if page_obj.has_previous %}
+        <a href="?page={{ page_obj.previous_page_number }}" class="page-link"
+          >«</a
+        >
+        {% endif %}
+
+        <span class="current page-link">
+          Página {{ page_obj.number }} de {{ page_obj.paginator.num_pages }}.
+        </span>
+        {% if page_obj.has_next %}
+        <a
+          href="?page={{ page_obj.next_page_number }}"
+          style="text-decoration: none"
+          class="page-link"
+          >»</a
+        >
+        {% endif %} {% endif %}
+      </div>
+    </div>
+  </div>
+  <div class="card-body pb-0">
+    <div class="row d-flex align-items-stretch">
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th>Motivo</th>
+                    <th>Coche</th>
+                    {% if  user.is_mechanic %}<th>Cliente</th>{% endif %}
+                    <th>Fecha solicitud</th>
+                    <th>Acciones</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for reparacion in reparaciones %}
+                <tr>
+                    <td>{%if reparacion.Motivo%} {{reparacion.Motivo}} {%else%} No descrito {% endif %}</td>
+                    <td>{{reparacion.Coche}}</td>
+                    {% if  user.is_mechanic %}<td>{{reparacion.Dueno}}</td>{% endif %}
+                    <td>{{reparacion.FechaSolicitud}}</td>
+                    <td><a href="" class="btn btn-warning">Reparar</a></td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+      {% if not reparaciones %}
+      <p>No has reparado ningún coche hasta el momento.</p>
+      {% endif %}
+    </div>
+  </div>
+</div>
+{% endblock %}

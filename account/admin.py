@@ -26,5 +26,5 @@ class UserAdmin(BaseUserAdmin):
     )
     search_fields = ['username', 'first_name', 'last_name']
     list_display = ('id', 'username', 'first_name', 'last_name', 'is_client', 'is_mechanic', 'is_active')
-    list_filter = ['is_client', 'is_mechanic']
+    list_filter = ['is_client', 'is_mechanic', 'is_active']
 admin.site.register(User, UserAdmin)

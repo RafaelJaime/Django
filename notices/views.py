@@ -30,6 +30,9 @@ class nuevaCreateView(CreateView):
     template_name = "notices/create.html"
     fields=['Titulo', 'Texto', 'Foto']
     success_url = reverse_lazy('notices:listanoticias')
+    def form_valid(self, form):
+        form.instance.Autor = self.request.user
+        return super(nuevaCreateView, self).form_valid(form)
 @method_decorator([login_required, mechanic_required], name='dispatch')
 class borrarDeleteView(DeleteView):
     model = noticia

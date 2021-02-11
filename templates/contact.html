@@ -1,0 +1,22 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block title %}Te lo reparo{% endblock %}
+{% block header%}Contactar con el administrador{% endblock %}
+{% block content %}
+<div class="card card-solid">
+    <div class="card-body pb-0">
+        <form action="#" method="POST">
+            {% csrf_token %}
+            <label for="mail" required>Escribe aquí tu correo para contactarte: </label>
+            <input type="email" name="mail">
+            <br>
+            <label for="message">Escribe tu mensaje en el siguiente cuadro: </label><br>
+            <textarea name="message" cols="30" rows="10"></textarea>
+            <br>
+    </div>
+    <div class="card-footer">
+        <input type="submit" value="Enviar" class="btn btn-success">
+    </div>
+    </form>
+</div>
+{% endblock %}

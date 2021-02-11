@@ -24,10 +24,12 @@ from . import views
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('', views.index_view, name='index'),
-    path('account/', include('account.urls', namespace='account')),
+    path('contact', views.contactView, name="contact"),
+    path('account', include('account.urls', namespace='account')),
     path('coches/', include('cars.urls', namespace='cars')),
     path('noticias/', include('notices.urls', namespace='notices')),
     path('api/', include('api.urls', namespace='api')),
+    path('reparacion/', include('reparations.urls', namespace='reparations')),
 ]
 if settings.DEBUG:
     urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

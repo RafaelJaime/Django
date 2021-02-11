@@ -12,6 +12,7 @@
         <div>Texto: {{ noticia.Texto }}</div>
         <div>Fecha de modificación: {{ noticia.Fmodificacion }}</div>
         <div>Fecha de creacion: {{ noticia.Fcreacion }}</div>
+        <div>Autor: {% if noticia.Autor %}{{ noticia.Autor }}{% else %}Anónimo{% endif %}</div>
         <div>Foto: <img src="{% if noticia.Foto %}{{ noticia.Foto.url }}{% else %}{% static 'logo.jpg' %}{% endif %}" alt="No se puede cargar la imagen" width="100%"></div>
       <br>
   </div>

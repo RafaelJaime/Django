@@ -9,3 +9,6 @@ class User(AbstractUser):
     is_client = models.BooleanField(default=True)
     is_mechanic = models.BooleanField(default=False)
     is_active = models.BooleanField(default=False)
+
+    def __str__(self):
+        return self.first_name + ' ' + self.last_name
