@@ -3,7 +3,8 @@
 {% block header %}Reparaciones{% endblock %}
 {% block content %}
 <div class="card card-solid">
-    <form action="{% url 'reparations:reparate' coche.id %}" method="POST"></form>
+    <form action="" method="POST">
+    {% csrf_token %}
     <div class="card-header">
         <h2>Nueva reparación</h2>
       </div>
@@ -15,7 +16,7 @@
   </div>
   <div class="card-footer">
     <a href="{% url 'cars:listacoches' %}" class="btn btn-default">Volver</a>
-    <input type="submit" class="btn btn-primary" value="Solicitar reparación"></input>
+    <input type="submit" class="btn btn-primary" value="Solicitar reparación">
   </div>
 </form>
 </div>

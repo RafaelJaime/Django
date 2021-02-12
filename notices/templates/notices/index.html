@@ -4,10 +4,25 @@
 {% block header %}Todos las noticias{% endblock %} 
 {% block content %}
 <div class="card card-solid">
-  <div class="card-header pb-0">
-    <h4>
-      Las noticias de teloreparo, ten cuidado porque las leerán los clientes.
-    </h4>
+  <div class="card-header ui-sortable-handle">
+    <h4 class="card-title">Las noticias de teloreparo, ten cuidado porque las leerán los clientes.</h4>
+    <div class="card-tools">
+      <div class="pagination pagination-sm">
+        {% if noticias %}
+          {% if page_obj.has_previous %}
+              <a href="?page={{ page_obj.previous_page_number }}" class="page-link">«</a>
+          {% endif %}
+  
+          <span class="current page-link">
+              Página {{ page_obj.number }} de {{ page_obj.paginator.num_pages }}.
+          </span>
+          {% if page_obj.has_next %}
+              <a href="?page={{ page_obj.next_page_number }}" style="text-decoration:none;" class="page-link">»</a>
+          {% endif %}
+          {% endif %}
+  </div>
+    </div>
+  </div>
   </div>
   <div class="card-body pb-0">
     <div class="row d-flex align-items-stretch">

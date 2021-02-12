@@ -13,6 +13,7 @@ class IndexListView(ListView):
     model = noticia
     template_name='notices/index.html'
     context_object_name = 'noticias'
+    paginate_by=6
 @method_decorator([login_required, mechanic_required], name='dispatch')
 class verDetailView(DetailView):
     model = noticia

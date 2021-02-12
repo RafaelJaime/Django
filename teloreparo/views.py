@@ -50,3 +50,11 @@ def send_email(email, tiempo, mensaje):
     )
     correo.attach_alternative(content, 'text/html')
     correo.send()
+
+def error_404(request, exception):
+        data = {}
+        return render(request,'errors/error_404.html', data)
+
+def error_500(request):
+        data = {}
+        return render(request,'errors/error_500.html', data)

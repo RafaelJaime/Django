@@ -1,5 +1,6 @@
 from django.shortcuts import render, redirect
 from django.views.generic import ListView, View
+from django.contrib import messages
 
 from django.conf import settings
 from django.http import HttpResponse
@@ -33,16 +34,18 @@ def reparateView(request, pk):
         }, )
 
     if request.method == 'POST':
-        print('pasa por aquí')
-        reparacion = reparation(
-            Motivo=form.cleaned_data.get('Motivo'),
-            IdCoche=coche1,
-            IdDueno=request.user
-        )
-        reparacion.save()
-        messages.success(request, 'Petición realizada correctamente.')
-        return redirect('index')
-
+        reparacion = reparation
+        if form.is_valid():
+            try:
+                reparacion = reparation.objects.get(Coche=coche1, Arreglado=False)
+                reparation.objects.filter(Coche=coche1).update(Motivo=request.POST.get('Motivo'))
+                reparation.refresh_from_db()
+                messages.error(request, 'Ya existe la petición de reparación, se actualizará el motivo.')
+            except reparacion.DoesNotExist:
+                reparacion = reparation(Motivo=request.POST.get('Motivo'),Coche=coche1, Dueno = request.user)
+                messages.success(request, 'Petición para reparación realizada correctamente.')
+            reparacion.save()
+            return redirect('index')
 
 @method_decorator([login_required, client_required], name='dispatch')
 class reparationView(ListView):
@@ -75,8 +78,7 @@ class reparateMechanicView(ListView):
 
     def get_queryset(self, *args, **kwargs):
         return reparation.objects.filter(Arreglado=False).order_by('FechaSolicitud')
-
-
+@method_decorator([login_required, mechanic_required], name='dispatch')
 class informeView(View):
     def cabecera(self, pdf):
         img = settings.BASE_DIR + '/static/logo.jpg'
@@ -115,7 +117,7 @@ class informeView(View):
             
 
     def pie(self, pdf):
-        pdf.drawString(50, 45, u"Teloreparo")
+        pdf.drawString(50, 45, u"Teloreparo©")
         for i in range(490):
             pdf.drawString(50+i, 55, u"-")
 
