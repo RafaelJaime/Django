@@ -14,11 +14,7 @@
         <div>Color: {{ coche.Color }}</div>
         <div>FechaMatriculacion: {{ coche.FechaMatriculacion }}</div>
         <div>Imagen: <img
-                    src="{% if coche.Imagen %}
-                        {{ coche.Imagen.url }}
-                        {% else %}
-                        {% static 'x.png' %}
-                        {% endif %}"
+                    src="{% if coche.Imagen %}{{ coche.Imagen.url }}{% else %}{% static 'logo.jpg' %}{% endif %}"
                     alt="Imagen del coche"
                     width="100%"
                     height="100%"

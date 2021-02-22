@@ -1,7 +1,7 @@
 {% extends 'base.html' %} 
 {% load static %} 
 {% block title %}Te loreparo{%endblock %} 
-{% block header %}Todas sus reparaciones{% endblock %} 
+{% block header %}Todas las reparaciones por hacer{% endblock %} 
 {% block content %}
 <div class="card card-solid">
   <div class="card-header ui-sortable-handle">
@@ -47,14 +47,11 @@
                     <td>{{reparacion.Coche}}</td>
                     {% if  user.is_mechanic %}<td>{{reparacion.Dueno}}</td>{% endif %}
                     <td>{{reparacion.FechaSolicitud}}</td>
-                    <td><a href="" class="btn btn-warning">Reparar</a></td>
+                    <td><a href="{% url 'reparations:Mrepar' reparacion.id %}" class="btn btn-warning">Reparar</a></td>
                 </tr>
                 {% endfor %}
             </tbody>
         </table>
-      {% if not reparaciones %}
-      <p>No has reparado ningún coche hasta el momento.</p>
-      {% endif %}
     </div>
   </div>
 </div>

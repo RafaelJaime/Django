@@ -1,7 +1,7 @@
 from django.shortcuts import render, redirect
 from django.views.generic import ListView, View
 from django.contrib import messages
-
+from django.shortcuts import render, HttpResponseRedirect
 from django.conf import settings
 from django.http import HttpResponse
 from io import BytesIO
@@ -12,7 +12,7 @@ from cars.models import coche
 from account.models import User
 
 from .models import reparation
-from .forms import ReparateForm
+from .forms import ReparateForm, MReparateForm
 
 from account.decorators import client_required, mechanic_required
 from django.utils.decorators import method_decorator
@@ -34,18 +34,15 @@ def reparateView(request, pk):
         }, )
 
     if request.method == 'POST':
-        reparacion = reparation
         if form.is_valid():
-            try:
-                reparacion = reparation.objects.get(Coche=coche1, Arreglado=False)
-                reparation.objects.filter(Coche=coche1).update(Motivo=request.POST.get('Motivo'))
-                reparation.refresh_from_db()
-                messages.error(request, 'Ya existe la petición de reparación, se actualizará el motivo.')
-            except reparacion.DoesNotExist:
-                reparacion = reparation(Motivo=request.POST.get('Motivo'),Coche=coche1, Dueno = request.user)
+            reparacion, created = reparation.objects.get_or_create(Coche=coche1, Arreglado=False, defaults={'Dueno':request.user, 'Motivo':request.POST.get('Motivo')})
+            if created:
                 messages.success(request, 'Petición para reparación realizada correctamente.')
+            else:
+                reparacion.Motivo = Motivo = request.POST.get('Motivo')
+                messages.error(request, 'Ya existe la petición de reparación, se actualizará el motivo.')
             reparacion.save()
-            return redirect('index')
+            return redirect('reparations:Mreparations')
 
 @method_decorator([login_required, client_required], name='dispatch')
 class reparationView(ListView):
@@ -61,13 +58,26 @@ class reparationView(ListView):
 @method_decorator([login_required, mechanic_required], name='dispatch')
 class reparationMechanicView(ListView):
     model = reparation
-    template_name = 'reparations/index.html'
+    template_name = 'reparations/index2.html'
     context_object_name = "reparaciones"
     paginate_by = 10
 
     def get_queryset(self, *args, **kwargs):
-        return reparation.objects.filter(Mecanico=self.request.user.id, Arreglado=True)
-
+        dueno = User.objects.filter(id=self.request.GET.get('Cliente'))
+        coch = coche.objects.filter(id=self.request.GET.get('Coche'))
+        print(dueno)
+        print(coch)
+        if dueno:
+            return reparation.objects.filter(Mecanico=self.request.user.id, Arreglado=True, Dueno= dueno[0])
+        if coch:
+            return reparation.objects.filter(Mecanico=self.request.user.id, Arreglado=True, Coche=coch[0])
+        else:
+            return reparation.objects.filter(Mecanico=self.request.user.id, Arreglado=True)
+    def get_context_data(self, **kwargs):
+        context = super(reparationMechanicView, self).get_context_data(**kwargs)
+        context['Clientes'] = User.objects.filter(is_client=True)
+        context['Coches'] = coche.objects.filter(Dueno = self.request.GET.get('Cliente'))
+        return context
 
 @method_decorator([login_required, mechanic_required], name='dispatch')
 class reparateMechanicView(ListView):
@@ -78,6 +88,27 @@ class reparateMechanicView(ListView):
 
     def get_queryset(self, *args, **kwargs):
         return reparation.objects.filter(Arreglado=False).order_by('FechaSolicitud')
+
+@mechanic_required
+def reparMechanicView(request, pk):
+    reparacion = reparation.objects.get(pk=pk)
+    form = MReparateForm(request.POST or None)
+
+    if request.method == 'GET':
+        return render(request, 'reparations/Mreparate.html', {
+            'reparacion': reparacion,
+            'form':form,
+        }, )
+
+    if request.method == 'POST':
+        if form.is_valid():
+            reparacion.Observaciones = request.POST.get('Observaciones')
+            reparacion.Mecanico = request.user
+            reparacion.Arreglado = True
+            reparacion.save()
+            messages.success(request, 'Se ha reparado correctamente.')
+            return redirect('reparations:Mreparate')
+
 @method_decorator([login_required, mechanic_required], name='dispatch')
 class informeView(View):
     def cabecera(self, pdf):

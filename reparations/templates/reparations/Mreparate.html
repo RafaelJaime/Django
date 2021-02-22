@@ -1,0 +1,24 @@
+{% extends 'base.html' %}
+{% block title %}Te lo reparo{% endblock %}
+{% block header %}Reparaciones{% endblock %}
+{% block content %}
+<div class="card card-solid">
+    <form action="" method="POST">
+    {% csrf_token %}
+    <div class="card-header">
+        <h2>Terminar reparación</h2>
+      </div>
+    <div class="card-body pb-0">
+        Matrícula del coche: {{ reparacion.Coche.Matricula }}<br>
+        Nombre del dueño: {{ reparacion.Coche.Dueno }}<br>
+        Motivo: {{ reparacion.Motivo }}<br>
+        {{form}}
+      <br>
+  </div>
+  <div class="card-footer">
+    <a href="{% url 'reparations:Mreparate' %}" class="btn btn-default">Volver</a>
+    <input type="submit" class="btn btn-primary" value="Marcar como reparado">
+  </div>
+</form>
+</div>
+{% endblock %}

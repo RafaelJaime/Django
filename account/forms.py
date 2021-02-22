@@ -17,8 +17,7 @@ class SingUpForm(forms.Form):
     telephone = forms.CharField(label="Teléfono", min_length=9, required=True)
     direction = forms.CharField(label="Dirección: ", min_length=2, max_length=50, required=False, widget=forms.TextInput(
         attrs={'class': 'form-control', 'placeholder': 'Escribe tu dirección'}))
-    # bornDate = forms.DateField(required=True, widget=forms.DateInput(format=(
-    #     '%d-%m-%Y'), attrs={'class': 'myDateClass', 'placeholder': 'dd-mm-YYYY'}))
+    # bornDate = forms.DateField(required=True, widget=forms.DateInput(format=('%d-%m-%Y'), attrs={'class': 'myDateClass', 'placeholder': 'dd-mm-YYYY'}))
     password = forms.CharField(label="Contraseña", min_length=2, max_length=50, required=True, widget=forms.PasswordInput(
         attrs={'class': 'form-control'}))
     password2 = forms.CharField(label="Repite la contraseña", required=True, widget=forms.PasswordInput(
